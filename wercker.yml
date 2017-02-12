@@ -20,7 +20,10 @@ build:
     # Read more about steps on our dev center:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
+<<<<<<< HEAD
+<<<<<<< HEAD
     - script:
+<<<<<<< HEAD
 <<<<<<< HEAD
         name: まず GitHub から記事を持ってくるのに必須のツール OpenSSH をインストールするよ
         code: apk --no-cache add openssh-client
@@ -42,7 +45,73 @@ build:
         name: redcarpet をインストールするっ！
         code: gem install redcarpet
 =======
+=======
+        name: Install OPENSSH.
+        code:　|
+          apk --no-cache add openssh-client
+=======
+    - install-packages:
+        packages: openssh-client
+>>>>>>> e77b9c7... fixed.
+=======
+    - script:
+        name: まず GitHub から記事を持ってくるのに必須のツール OpenSSH をインストールするよ
+        code: apk --no-cache add openssh-client
+>>>>>>> 0931270... Fixed.
+    - script:
+<<<<<<< HEAD
+        name: Install Jekyll-redcarpet.
+        code: gem install redcarpet
+<<<<<<< HEAD
+<<<<<<< HEAD
+    - script:
+        name: Cloning from GitHub.
+        code:　|
+          cd /tmp/
+          git clone git@github.com\:danmaq/danmaq.articles.git
+          git clone git@github.com\:danmaq/danmaq.github.io.git
+<<<<<<< HEAD
+    - script:
+>>>>>>> 89b938f... cloneするところまでCI のスクリプト書いた。
         name: echo
         code: |
           echo "hello world!"
 >>>>>>> 7572488... ダミーのWercker.yml追加。
+=======
+>>>>>>> 28bb52c... Fixed
+=======
+>>>>>>> c125000... Fixed,
+=======
+    - script:
+<<<<<<< HEAD
+        name: Create private key.
+=======
+        name: Git に繋ぐために 秘密鍵の設定とかやる！
+>>>>>>> 3b1b301... Fixed
+=======
+        name: 続いて GitHub に SSH で繋ぐために必要な秘密鍵の設定とかやるよ
+>>>>>>> ff7bcf7... Fixed?
+        code: |
+          cd ~
+          mkdir .ssh
+          echo ${PRIVATE_KEY} > .ssh/id_rsa
+<<<<<<< HEAD
+<<<<<<< HEAD
+          ls .ssh/
+>>>>>>> 9b4e331... Fixed.
+=======
+          ls -l .ssh/
+>>>>>>> 889b83c... Fixed
+=======
+          chmod 700 .ssh
+          chmod 600 .ssh/id_rsa
+          ssh-keyscan -H github.com > .ssh/known_hosts
+    - script:
+        name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
+        code: |
+          cd /tmp/
+          git clone git@github.com:danmaq/danmaq.articles.git
+    - script:
+        name: redcarpet をインストールするっ！
+        code: gem install redcarpet
+>>>>>>> 3b1b301... Fixed
