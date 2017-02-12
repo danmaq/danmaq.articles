@@ -20,8 +20,9 @@ build:
     # Read more about steps on our dev center:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
-    - install-packages:
-        packages: openssh-client
+    - script:
+        name: Install openssh-client
+        code: apk --no-cache add openssh-client
     - script:
         name: Install Jekyll-redcarpet.
         code: gem install redcarpet
