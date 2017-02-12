@@ -26,3 +26,11 @@ build:
     - script:
         name: Install Jekyll-redcarpet.
         code: gem install redcarpet
+    - script:
+        name: Create private key.
+        code: |
+          cd ~
+          mkdir .ssh
+          ls .ssh/
+          echo ${PRIVATE_KEY} > .ssh/id_rsa
+          ls .ssh/
