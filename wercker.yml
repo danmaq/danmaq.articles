@@ -21,18 +21,19 @@ build:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
     - script:
-        name: Git に繋ぐために OPENSSH をインストールするっ！
+        name: まず GitHub から記事を持ってくるのに必須のツール OpenSSH をインストールするよ
         code: apk --no-cache add openssh-client
     - script:
-        name: Git に繋ぐために 秘密鍵の設定とかやる！
+        name: 続いて GitHub に SSH で繋ぐために必要な秘密鍵の設定とかやるよ
         code: |
           cd ~
           mkdir .ssh
           echo ${PRIVATE_KEY} > .ssh/id_rsa
           chmod 700 .ssh
           chmod 600 .ssh/id_rsa
+          ssh-keyscan -H github.com > .ssh/known_hosts
     - script:
-        name: Git から danmaq.articles リポジトリをクローンするよ！
+        name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
         code: |
           cd /tmp/
           git clone git@github.com:danmaq/danmaq.articles.git
