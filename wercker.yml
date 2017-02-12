@@ -21,6 +21,7 @@ build:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
     - script:
+<<<<<<< HEAD
         name: まず GitHub から記事を持ってくるのに必須のツール OpenSSH をインストールするよ
         code: apk --no-cache add openssh-client
     - script:
@@ -40,3 +41,8 @@ build:
     - script:
         name: redcarpet をインストールするっ！
         code: gem install redcarpet
+=======
+        name: echo
+        code: |
+          echo "hello world!"
+>>>>>>> 7572488... ダミーのWercker.yml追加。
