@@ -31,6 +31,6 @@ build:
         code: |
           cd ~
           mkdir .ssh
-          ls .ssh/
+          ls -l .ssh/
           echo ${PRIVATE_KEY} > .ssh/id_rsa
-          ls .ssh/
+          ls -l .ssh/
