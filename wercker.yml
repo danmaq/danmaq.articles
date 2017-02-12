@@ -25,9 +25,3 @@ build:
     - script:
         name: Install Jekyll-redcarpet.
         code: gem install redcarpet
-    - script:
-        name: Cloning from GitHub.
-        code:　|
-          cd /tmp/
-          git clone git@github.com\:danmaq/danmaq.articles.git
-          git clone git@github.com\:danmaq/danmaq.github.io.git
