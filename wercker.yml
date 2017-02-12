@@ -28,10 +28,9 @@ build:
         code: |
           cd ~
           mkdir .ssh
-          echo ${DUMMY_PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
+          echo ${PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
           chmod 700 .ssh
           chmod 600 .ssh/id_rsa
-          cat .ssh/id_rsa
           ssh-keyscan -H github.com > .ssh/known_hosts
     - script:
         name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
