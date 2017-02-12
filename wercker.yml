@@ -22,10 +22,12 @@ build:
   steps:
     - script:
         name: Install OPENSSH.
-        code:　apk --no-cache add openssh-client
+        code:　|
+          apk --no-cache add openssh-client
     - script:
         name: Install Jekyll-redcarpet.
-        code:　gem install redcarpet
+        code: |
+        　 gem install redcarpet
     - script:
         name: Cloning from GitHub.
         code:　|
