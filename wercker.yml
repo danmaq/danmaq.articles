@@ -21,16 +21,21 @@ build:
     # http://devcenter.wercker.com/docs/steps/index.html
   steps:
     - script:
-        name: Install openssh-client
+        name: Git に繋ぐために OPENSSH をインストールするっ！
         code: apk --no-cache add openssh-client
     - script:
-        name: Install Jekyll-redcarpet.
-        code: gem install redcarpet
-    - script:
-        name: Create private key.
+        name: Git に繋ぐために 秘密鍵の設定とかやる！
         code: |
           cd ~
           mkdir .ssh
-          ls -l .ssh/
           echo ${PRIVATE_KEY} > .ssh/id_rsa
-          ls -l .ssh/
+          chmod 700 .ssh
+          chmod 600 .ssh/id_rsa
+    - script:
+        name: Git から danmaq.articles リポジトリをクローンするよ！
+        code: |
+          cd /tmp/
+          git clone git@github.com:danmaq/danmaq.articles.git
+    - script:
+        name: redcarpet をインストールするっ！
+        code: gem install redcarpet
