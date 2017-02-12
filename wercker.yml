@@ -38,5 +38,13 @@ build:
           cd /tmp/
           git clone git@github.com:danmaq/danmaq.articles.git
     - script:
-        name: redcarpet をインストールするっ！
+        name: いい感じっ！クローンしたデータを作業台に載せるよ！
+        code: |
+          cp -r /tmp/danmaq.articles/* /srv/jekyll
+          cd /srv/jekyll
+    - script:
+        name: あらら、Markdownか……、じゃ、Markdown のすっごーいやつ、redcarpet をインストールするよ！
         code: gem install redcarpet
+    - script:
+        name: ビルド！
+        code: jekyll b
