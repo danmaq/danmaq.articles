@@ -52,7 +52,7 @@ build:
         name: やったー！じゃあ今度は、成果物を入れるリポジトリもクローンしようね！
         code: |
           cd /tmp/
-          git clone git@github.com:danmaq/danmaq.danmaq.io.git
+          git clone git@github.com:danmaq/danmaq.github.io.git
     - script:
         name: 受け皿ができた感じ。じゃあ新鮮なやつを入れちゃおうね！
         code: cp -r /srv/jekyll/_site/* /tmp/danmaq.github.io/
