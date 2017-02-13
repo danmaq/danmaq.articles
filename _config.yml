@@ -30,5 +30,8 @@ theme: minima
 gems:
   - jekyll-feed
 exclude:
+  - .gitignore
   - Gemfile
   - Gemfile.lock
+  - README.md
+  - wercker.yml
