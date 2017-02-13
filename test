@@ -1,0 +1,13 @@
+#!/bin/sh
+
+VSRC=$(cd $(dirname $0) && pwd)
+CONTAINER=jekyll
+IMAGE=danmaq/jekyll-git-redcarpet
+
+docker build -t ${IMAGE} ./_test
+docker run -d -p 4000:4000 -v ${VSRC}:/v:ro --name ${CONTAINER} ${IMAGE} sh -c "mkdir /root/.ssh;while true; do sleep 1; done"
+IP=`docker-machine ip docker`
+echo "Please open via browser: http://${IP}:4000"
+docker exec -it ${CONTAINER} /v/test.incontainer
+#docker exec -it jekyll ash
+docker rm -f jekyll
