@@ -31,6 +31,8 @@ build:
           echo ${PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
           chmod 700 .ssh
           chmod 600 .ssh/id_rsa
+          git config --global user.name "wercker box by @danmaq (Shuhei Nomura)"
+          git config --global user.email "info@danmaq.com"
           ssh-keyscan -H github.com > .ssh/known_hosts
     - script:
         name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
@@ -43,10 +45,10 @@ build:
           cp -r /tmp/danmaq.articles/* /srv/jekyll
           cd /srv/jekyll
     - script:
-        name: あらら、Markdownか……、じゃ、Markdown のすっごーいやつ、redcarpet をインストールするよ！
+        name: あらら、Markdownね……じゃあ Markdown のすっごーいやつ、redcarpet をインストールするよ！
         code: gem install redcarpet
     - script:
-        name: 成果物を作るよ！ビルド！
+        name: 成果物を作るよ！Jekyll さん、ビルドお願いっ！
         code: jekyll b
     - script:
         name: やったー！じゃあ今度は、成果物を入れるリポジトリもクローンしようね！
@@ -54,10 +56,10 @@ build:
           cd /tmp/
           git clone git@github.com:danmaq/danmaq.danmaq.io.git
     - script:
-        name: 受け皿ができた感じ。じゃあ新鮮なやつを入れちゃおうね！
+        name: 受け皿ができた感じ。じゃあ成果物を入れちゃおうね！
         code: cp -r /srv/jekyll/_site/* /tmp/danmaq.github.io/
     - script:
-        name: よーし、じゃあ新しい成果物を確定しちゃおう！
+        name: 最後の仕上げだよ！新しい成果物を確定しちゃおう！
         code: |
           cd /tmp/danmaq.github.io
           git add -A
