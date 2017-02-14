@@ -2,6 +2,7 @@
 
 cp -r /v/_posts /srv/jekyll/
 cp -r /v/root/* /srv/jekyll/
+rm -rf /srv/jekyll/_site/*
 cd /srv/jekyll
 
 # ビルド！
