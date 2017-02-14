@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cp -r /v/_posts /srv/jekyll/
+cp -r /v/root/* /srv/jekyll/
+cd /srv/jekyll
+
+# ビルド！
+jekyll s

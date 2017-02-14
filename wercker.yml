@@ -1,39 +1,14 @@
-# This references a standard debian container from the
-# Docker Hub https://registry.hub.docker.com/_/debian/
-# Read more about containers on our dev center
-# http://devcenter.wercker.com/docs/containers/index.html
-box: jekyll/jekyll
-# You can also use services such as databases. Read more on our dev center:
-# http://devcenter.wercker.com/docs/services/index.html
-# services:
-    # - postgres
-    # http://devcenter.wercker.com/docs/services/postgresql.html
-
-    # - mongo
-    # http://devcenter.wercker.com/docs/services/mongodb.html
-
-# This is the build pipeline. Pipelines are the core of wercker
-# Read more about pipelines on our dev center
-# http://devcenter.wercker.com/docs/pipelines/index.html
+box: danmaq/jekyll-git-redcarpet
 build:
-    # Steps make up the actions in your pipeline
-    # Read more about steps on our dev center:
-    # http://devcenter.wercker.com/docs/steps/index.html
   steps:
     - script:
-        name: まず GitHub から記事を持ってくるのに必須のツール OpenSSH をインストールするよ
-        code: apk --no-cache add openssh-client
-    - script:
-        name: 続いて GitHub に SSH で繋ぐために必要な秘密鍵の設定とかやるよ
+        name: まず GitHub に SSH で繋ぐために必要な秘密鍵の設定とかやるよー
         code: |
           cd ~
-          mkdir .ssh
           echo ${PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
-          chmod 700 .ssh
           chmod 600 .ssh/id_rsa
           git config --global user.name "wercker box by @danmaq (Shuhei Nomura)"
           git config --global user.email "info@danmaq.com"
-          ssh-keyscan -H github.com > .ssh/known_hosts
     - script:
         name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
         code: |
@@ -42,7 +17,8 @@ build:
     - script:
         name: いい感じっ！クローンしたデータを作業台に載せるよ！
         code: |
-          cp -r /tmp/danmaq.articles/* /srv/jekyll
+          cp -r /tmp/danmaq.articles/root/* /srv/jekyll
+          cp -r /tmp/danmaq.articles/_posts /srv/jekyll
           cd /srv/jekyll
     - script:
         name: あらら、Markdownね……じゃあ Markdown のすっごーいやつ、redcarpet をインストールするよ！

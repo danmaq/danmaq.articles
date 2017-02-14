@@ -1,7 +1,0 @@
-#!/bin/sh
-
-cp -r /v/* /srv/jekyll
-cd /srv/jekyll
-
-# ビルド！
-jekyll s
