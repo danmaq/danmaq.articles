@@ -5,13 +5,12 @@ if [ `which docker | wc -l` -eq 0 ]; then
   exit 1
 fi
 
-VSRC=$(cd $(dirname $0) && pwd)
+VSRC=$(cd $(dirname $0)/..; pwd)
 CONTAINER=jekyll
 IMAGE=danmaq/jekyll-git-redcarpet
-
 docker run -d -p 4000:4000 -v ${VSRC}:/v:ro --name ${CONTAINER} ${IMAGE} sh -c "mkdir /root/.ssh;while true; do sleep 1; done"
 IP=`docker-machine ip docker`
-echo "Please open via browser: http://${IP}:4000"
+printf "Please open via browser: \e[1;4mhttp://${IP}:4000\e[m\n"
 docker exec -it ${CONTAINER} /v/test/incontainer
-#docker exec -it jekyll ash
-docker rm -f jekyll
+#docker exec -it ${CONTAINER} ash
+docker rm -f ${CONTAINER}

@@ -2,13 +2,11 @@ box: danmaq/jekyll-git-redcarpet
 build:
   steps:
     - script:
-        name: まず GitHub に SSH で繋ぐために必要な秘密鍵の設定とかやるよー
+        name: まず GitHub に SSH で繋ぐために必要な秘密鍵の設定やるよー
         code: |
           cd ~
           echo ${PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
           chmod 600 .ssh/id_rsa
-          git config --global user.name "wercker box by @danmaq (Shuhei Nomura)"
-          git config --global user.email "info@danmaq.com"
     - script:
         name: 準備おっけー？ GitHub から danmaq.articles リポジトリをクローンするよ！
         code: |
