@@ -11,7 +11,7 @@ if not exist "_site\" md _site
 setlocal
 set VSRC=%~dp0
 set CONTAINER=jekyll
-set IMAGE=danmaq/jekyll-git-redcarpet
+set IMAGE=danmaq/jekyll-git-redcarpet:github-pages
 set VOL1=%VSRC:~0,-6%:/v/:ro
 set VOL2=%VSRC:~0,-5%_site:/srv/jekyll/_site
 set LOOP="mkdir /root/.ssh; while true; do sleep 1; done"
