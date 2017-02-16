@@ -11,25 +11,27 @@ mkdir -p _site
 PJHOME=$(cd $(dirname $0)/..; pwd)
 
 # ---- SET VOL1 ----
-if [ $# -ge 1 ]; then
-  VTHEME=$1
-else
-  VTHEME=${PJHOME}/tmp
-fi
+[ $# -ge 1 ] && VTHEME=$1 || VTHEME=${PJHOME}/tmp
 VOL1=${VTHEME}:/v/t:ro
 
 # ---- SET VOL2 ----
 VOL2=${PJHOME}:/v/a:ro
 
-# ---- SET VOL2 ----
+# ---- SET VOL3 ----
 VOL3=${PJHOME}_site:/srv/jekyll/_site
+
+# ---- SET VOL4 ----
+VOL4=${HOME}/.ssh/id_rsa:/root/.ssh/id_rsa:ro
 
 CONTAINER=jekyll
 IMAGE=danmaq/jekyll-git-redcarpet:github-pages
-docker run -d -p 4000:4000 -v ${VOL1} -v ${VOL2} -v ${VOL3} --name ${CONTAINER} ${IMAGE} sh -c "mkdir /root/.ssh;while true; do sleep 1; done"
+GIT_NAME='Jekyll bot by Shuhei Nomura'
+GIT_EMAIL='info@danmaq.com'
+LOOP='mkdir /root/.ssh;while true; do sleep 1; done'
+docker run -d -p 4000:4000 -v ${VOL1} -v ${VOL2} -v ${VOL3} -e GIT_NAME="${GIT_NAME}" -e GIT_EMAIL="${GIT_EMAIL}" --name ${CONTAINER} ${IMAGE} sh -c "${LOOP}"
 
 IP=`docker-machine ip docker`
 printf "Please open via browser: \e[1;4mhttp://${IP}:4000\e[m\n"
-docker exec -it ${CONTAINER} /v/test/incontainer
+docker exec -it ${CONTAINER} /v/a/test/incontainer
 #docker exec -it ${CONTAINER} ash
 docker rm -f ${CONTAINER}

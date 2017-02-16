@@ -1,9 +1,11 @@
 #!/bin/sh
 
-cp -r /v/_posts /srv/jekyll/
-cp -r /v/root/* /srv/jekyll/
+cp -r /v/a/_posts /srv/jekyll/
+cp -r /v/a/root/* /srv/jekyll/
 rm -rf /srv/jekyll/_site/*
 cd /srv/jekyll
+
+# todo: テーマの適用
 
 # ビルド！
 jekyll s
