@@ -18,7 +18,7 @@ set PJHOME=%PWD:~0,-6%
 rem ==== SET VOL1 ====
 set VTHEMES=%1
 if "%VTHEMES%"=="" set VTHEMES=%PJHOME%\tmp
-set VOL1=%VTHEMES%:/v/t/
+set VOL1=%VTHEMES%:/v/t/:ro
 
 rem ==== SET VOL2 ====
 set VOL2=%PJHOME%:/v/a/:ro
