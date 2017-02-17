@@ -1,20 +1,29 @@
 #!/bin/sh
 
+chmod 700 ~/.ssh/id_rsa
+
 JEKYLL_WORK=/srv/jekyll
 SRC_THEME=/v/danmaq.jekyll
 SRC_ARTICLES=/v/danmaq.articles
 THEME_HEAD=${SRC_THEME}/README.txt
 
-cd /tmp
-if [ -z "`ls ${SRC_THEME}`" -a `head -n 1 ${THEME_HEAD}` | grep 'Theme' ]; then
-  echo 'Detected theme files. Skipping clone from GitHub.'
+cd /v
+SKIP=1
+if [ -z "`ls ${SRC_THEME}`" ]; then
+    SKIP=0
 else
-  git clone git@github.com:danmaq/danmaq.jekyll.git
+    MATCH=`head -n 1 ${THEME_HEAD}` | grep 'Theme'
+    if [ -z ${MATCH} ]; then
+        SKIP=0
+    fi
+fi
+if [ ${SKIP} -eq 0 ]; then
+    git clone git@github.com:danmaq/danmaq.jekyll.git
 fi
 
 cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
 cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
-cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
+#cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
 
 rm -rf ${JEKYLL_WORK}/_site/*
 cd ${JEKYLL_WORK}
