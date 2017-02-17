@@ -1,11 +1,18 @@
 #!/bin/sh
 
+SRC_THEME=/v/t
+SRC_ARTICLES=/v/a
+
+if [ -z "`ls ${SRC_THEME}`" -a `head -n 1 ${SRC_THEME}/README.txt` | grep 'theme' ]; then
+fi
+# todo: テーマの適用
+
+
 cp -r /v/a/_posts /srv/jekyll/
 cp -r /v/a/root/* /srv/jekyll/
 rm -rf /srv/jekyll/_site/*
 cd /srv/jekyll
 
-# todo: テーマの適用
 
 # ビルド！
 jekyll s
