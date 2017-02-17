@@ -1,24 +1,32 @@
 #!/bin/sh
 
-SRC_THEME=/v/t
-SRC_ARTICLES=/v/a
+chmod 700 ~/.ssh/id_rsa
+
+JEKYLL_WORK=/srv/jekyll
+SRC_THEME=/v/danmaq.jekyll
+SRC_ARTICLES=/v/danmaq.articles
 THEME_HEAD=${SRC_THEME}/README.txt
-GIT_THEME=/tmp/danmaq.jekyll
 
-cd /tmp
-if [ -z "`ls ${SRC_THEME}`" -a `head -n 1 ${THEME_HEAD}` | grep 'Theme' ]; then
-  mkdir -p ${GIT_THEME}
-  cp -r /v/t/* ${GIT_THEME}/
+cd /v
+SKIP=1
+if [ -z "`ls ${SRC_THEME}`" ]; then
+    SKIP=0
 else
-  git clone git@github.com:danmaq/danmaq.jekyll.git
+    MATCH=`head -n 1 ${THEME_HEAD}` | grep 'Theme'
+    if [ -z ${MATCH} ]; then
+        SKIP=0
+    fi
 fi
-# todo: テーマの適用
+if [ ${SKIP} -eq 0 ]; then
+    git clone git@github.com:danmaq/danmaq.jekyll.git
+fi
 
+cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
+cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
+#cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
 
-cp -r /v/a/_posts /srv/jekyll/
-cp -r /v/a/root/* /srv/jekyll/
-rm -rf /srv/jekyll/_site/*
-cd /srv/jekyll
+rm -rf ${JEKYLL_WORK}/_site/*
+cd ${JEKYLL_WORK}
 
 # ビルド！
 jekyll s
