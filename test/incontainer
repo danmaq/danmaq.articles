@@ -19,9 +19,9 @@ else
 fi
 
 if [ ${SKIP} -eq 0 ]; then
+    #rm -rf ${SRC_THEME}/* ${SRC_THEME}/.[^.] ${SRC_THEME}/.??*
     git clone git@github.com:danmaq/danmaq.jekyll.git
 fi
-
 cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
 cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
 #cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
