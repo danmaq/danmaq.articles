@@ -38,8 +38,9 @@ docker run -d -p 4000:4000 ^
     -v %VOL1% -v %VOL2% -v %VOL3% ^
     -e GIT_NAME=%GIT_NAME% -e GIT_EMAIL=%GIT_EMAIL% ^
     --name %CONTAINER% %IMAGE% sh -c %LOOP%
-echo "Please open via browser: http://localhost:4000"
 docker cp %USERPROFILE%\.ssh\id_rsa %CONTAINER%:/root/.ssh/id_rsa
+
+echo "Please open via browser: http://localhost:4000"
 rem docker exec -it %CONTAINER% ash
 docker exec -it %CONTAINER% %DEST%/test/incontainer
 rem docker exec -it %CONTAINER% ash

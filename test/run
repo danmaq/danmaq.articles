@@ -14,7 +14,7 @@ PJHOME=$(cd $(dirname $0)/..; pwd)
 
 # ---- SET VOL1 ----
 [ $# -ge 1 ] && VTHEME=$1 || VTHEME=${PJHOME}/tmp
-VOL1=${VTHEME}:/v/danmaq.jekyll
+VOL1=$(cd ${VTHEME}; pwd):/v/danmaq.jekyll
 
 # ---- SET VOL2 ----
 DEST=/v/danmaq.articles
