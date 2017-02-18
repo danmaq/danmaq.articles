@@ -56,5 +56,5 @@ build:
     - script:
         name: 終わり！お掃除するよ！
         code: |
-  　　　　　rm -rf /tmp/* /tmp/.[^.] /tmp/.??*
-  　　　　　rm -rf ${WORK}/* ${WORK}/.[^.] ${WORK}/.??*
+          rm -rf /tmp/* /tmp/.[^.] /tmp/.??*
+          rm -rf ${WORK}/* ${WORK}/.[^.] ${WORK}/.??*
