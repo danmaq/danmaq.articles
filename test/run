@@ -24,11 +24,12 @@ VOL2=${PJHOME}:${DEST}:ro
 VOL3=${PJHOME}_site:/srv/jekyll/_site
 
 CONTAINER=jekyll
-IMAGE=danmaq/jekyll-git-redcarpet:github-pages
+IMAGE=danmaq/jekyll-git-redcarpet:custom
 GIT_NAME='jekyll bot by Shuhei Nomura'
 GIT_EMAIL='info@danmaq.com'
 LOOP='while true; do sleep 1; done'
 
+docker build -t ${IMAGE} test
 docker run -d -p 4000:4000 \
   -v ${VOL1} -v ${VOL2} -v ${VOL3} \
   -e GIT_NAME="${GIT_NAME}" -e GIT_EMAIL="${GIT_EMAIL}" \
