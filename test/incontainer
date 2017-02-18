@@ -12,22 +12,24 @@ SKIP=1
 if [ -z "`ls ${SRC_THEME}`" ]; then
     SKIP=0
 else
-    MATCH=`head -n 1 ${THEME_HEAD}` | egrep '.heme'
-    if [ -z ${MATCH} ]; then
+    if [ -z "`head -n 1 ${THEME_HEAD} | egrep '[Tt]heme'`" ]; then
         SKIP=0
     fi
 fi
 
 if [ ${SKIP} -eq 0 ]; then
-    #rm -rf ${SRC_THEME}/* ${SRC_THEME}/.[^.] ${SRC_THEME}/.??*
+    rm -rf ${SRC_THEME}/* ${SRC_THEME}/.[^.] ${SRC_THEME}/.??*
     git clone git@github.com:danmaq/danmaq.jekyll.git
 fi
+mkdir -p ${SRC_THEME}/_includes
+mkdir -p ${SRC_THEME}/_sass
+mkdir -p ${SRC_THEME}/assets
+
+cd ${JEKYLL_WORK}
 cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
 cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
-#cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
-
+cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
 rm -rf ${JEKYLL_WORK}/_site/*
-cd ${JEKYLL_WORK}
 
 # ビルド！
 jekyll s

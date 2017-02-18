@@ -26,7 +26,7 @@ github_username:  danmaq
 
 # Build settings
 markdown: redcarpet
-theme: minima
+theme: danmaq
 gems:
   - jekyll-feed
 exclude:
