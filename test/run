@@ -1,16 +1,44 @@
 #!/bin/sh
 
+# ---- VALIDATE ----
 if [ `which docker | wc -l` -eq 0 ]; then
   echo 'Docker service and client are required to run this setup.'
   exit 1
 fi
 
-VSRC=$(cd $(dirname $0)/..; pwd)
+# ---- CREATE WORKDIR ----
+mkdir -p tmp
+mkdir -p _site
+
+PJHOME=$(cd $(dirname $0)/..; pwd)
+
+# ---- SET VOL1 ----
+[ $# -ge 1 ] && VTHEME=$1 || VTHEME=${PJHOME}/tmp
+VOL1=$(cd ${VTHEME}; pwd):/v/danmaq.jekyll
+
+# ---- SET VOL2 ----
+DEST=/v/danmaq.articles
+VOL2=${PJHOME}:${DEST}:ro
+
+# ---- SET VOL3 ----
+VOL3=${PJHOME}_site:/srv/jekyll/_site
+
 CONTAINER=jekyll
-IMAGE=danmaq/jekyll-git-redcarpet
-docker run -d -p 4000:4000 -v ${VSRC}:/v:ro --name ${CONTAINER} ${IMAGE} sh -c "mkdir /root/.ssh;while true; do sleep 1; done"
+IMAGE=danmaq/jekyll-git-redcarpet:custom
+GIT_NAME='jekyll bot by Shuhei Nomura'
+GIT_EMAIL='info@danmaq.com'
+LOOP='while true; do sleep 1; done'
+
+docker build -t ${IMAGE} test
+docker run -d -p 4000:4000 \
+  -v ${VOL1} -v ${VOL2} -v ${VOL3} \
+  -e GIT_NAME="${GIT_NAME}" -e GIT_EMAIL="${GIT_EMAIL}" \
+  --name ${CONTAINER} ${IMAGE} sh -c "${LOOP}"
+docker cp ${HOME}/.ssh/id_rsa ${CONTAINER}:/root/.ssh/id_rsa
+
 IP=`docker-machine ip docker`
 printf "Please open via browser: \e[1;4mhttp://${IP}:4000\e[m\n"
-docker exec -it ${CONTAINER} /v/test/incontainer
+#docker exec -it ${CONTAINER} ash
+docker exec -it ${CONTAINER} ${DEST}/test/incontainer
 #docker exec -it ${CONTAINER} ash
 docker rm -f ${CONTAINER}

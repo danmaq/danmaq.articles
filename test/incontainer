@@ -1,9 +1,38 @@
 #!/bin/sh
 
-cp -r /v/_posts /srv/jekyll/
-cp -r /v/root/* /srv/jekyll/
-rm -rf /srv/jekyll/_site/*
-cd /srv/jekyll
+chmod 700 ~/.ssh/id_rsa
+
+JEKYLL_WORK=/srv/jekyll
+SRC_THEME=/v/danmaq.jekyll
+SRC_ARTICLES=/v/danmaq.articles
+THEME_HEAD=${SRC_THEME}/README.md
+
+cd /v
+SKIP=1
+if [ -z "`ls ${SRC_THEME}`" ]; then
+    SKIP=0
+else
+    if [ -z "`head -n 1 ${THEME_HEAD} | egrep '[Tt]heme'`" ]; then
+        SKIP=0
+    fi
+fi
+
+if [ ${SKIP} -eq 0 ]; then
+    rm -rf ${SRC_THEME}/* ${SRC_THEME}/.[^.] ${SRC_THEME}/.??*
+    git clone git@github.com:danmaq/danmaq.jekyll.git
+fi
+mkdir -p ${SRC_THEME}/theme/_includes
+mkdir -p ${SRC_THEME}/theme/_sass
+mkdir -p ${SRC_THEME}/theme/assets
+
+cd ${JEKYLL_WORK}
+cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
+cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
+cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/
+rm -rf ${JEKYLL_WORK}/_site/*
+
+CONF=${CONFIG_YML}/_config.yml
+cat ${CONF}|(rm ${CONF}; sed 's/danmaq.github.io/localhost/g' > ${CONF})
 
 # ビルド！
 jekyll s
