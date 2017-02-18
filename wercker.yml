@@ -4,6 +4,8 @@ build:
     - script:
         name: 作業始める前に、コンテナのシステム更新しておこっか
         code: |
+          echo 'install: --no-document' >> ~/.gemrc
+          echo 'update: --no-document' >> ~/.gemrc
           apk update
           apk upgrade
           gem update --system
