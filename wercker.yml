@@ -21,19 +21,20 @@ build:
     - script:
         name: 準備おっけー？ GitHub から記事リポジトリをクローンするよ！
         code: |
-          cd /tmp/
+          cd /tmp
           git clone ${REPO_ARTICLES}
     - script:
         name: 次に GitHub からテーマリポジトリもクローンするよ！
         code: |
-          cd /tmp/
+          cd /tmp
           git clone ${REPO_THEME}
     - script:
         name: いい感じっ！クローンしたデータを作業台に載せるよ！
         code: |
-          cp -r /tmp/danmaq.articles/root/* ${WORK}
-          cp -r /tmp/danmaq.articles/_posts ${WORK}
-          cd /srv/jekyll
+          cp -r /tmp/danmaq.articles/root/* ${WORK}/
+          cp -r /tmp/danmaq.articles/_posts ${WORK}/
+          cp -r /tmp/danmaq.jekyll/theme/* ${WORK}/
+          cd ${WORK}
     - script:
         name: 成果物を作るよ！Jekyll さん、ビルドお願いっ！
         code: jekyll b
@@ -52,3 +53,8 @@ build:
           git add -A
           git commit -m 'Converted from danmaq/danmaq.articles:master'
           git push
+    - script:
+        name: 終わり！お掃除するよ！
+        code: |
+  　　　　　rm -rf /tmp/* /tmp/.[^.] /tmp/.??*
+  　　　　　rm -rf ${WORK}/* ${WORK}/.[^.] ${WORK}/.??*
