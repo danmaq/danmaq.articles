@@ -5,22 +5,23 @@ chmod 700 ~/.ssh/id_rsa
 JEKYLL_WORK=/srv/jekyll
 SRC_THEME=/v/danmaq.jekyll
 SRC_ARTICLES=/v/danmaq.articles
-THEME_HEAD=${SRC_THEME}/README.txt
+THEME_HEAD=${SRC_THEME}/README.md
 
 cd /v
 SKIP=1
 if [ -z "`ls ${SRC_THEME}`" ]; then
     SKIP=0
 else
-    MATCH=`head -n 1 ${THEME_HEAD}` | grep 'Theme'
+    MATCH=`head -n 1 ${THEME_HEAD}` | egrep '.heme'
     if [ -z ${MATCH} ]; then
         SKIP=0
     fi
 fi
+
 if [ ${SKIP} -eq 0 ]; then
+    #rm -rf ${SRC_THEME}/* ${SRC_THEME}/.[^.] ${SRC_THEME}/.??*
     git clone git@github.com:danmaq/danmaq.jekyll.git
 fi
-
 cp -rf ${SRC_ARTICLES}/_posts ${JEKYLL_WORK}/
 cp -rf ${SRC_ARTICLES}/root/* ${JEKYLL_WORK}/
 #cp -rf ${SRC_THEME}/theme/* ${JEKYLL_WORK}/

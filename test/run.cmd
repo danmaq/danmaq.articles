@@ -38,8 +38,9 @@ docker run -d -p 4000:4000 ^
     --name %CONTAINER% %IMAGE% sh -c %LOOP%
 echo "Please open via browser: http://localhost:4000"
 docker cp %USERPROFILE%\.ssh\id_rsa %CONTAINER%:/root/.ssh/id_rsa
+rem docker exec -it %CONTAINER% ash
 docker exec -it %CONTAINER% %DEST%/test/incontainer
-docker exec -it %CONTAINER% ash
+rem docker exec -it %CONTAINER% ash
 docker rm -f %CONTAINER%
 endlocal
 exit /b 0
