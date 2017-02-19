@@ -4,5 +4,4 @@ COPY .gemrc /root/.gemrc
 RUN apk update \
   && apk upgrade \
   && gem update --system \
-  && gem update \
-  && gem install htmlbeautifier
+  && gem update
