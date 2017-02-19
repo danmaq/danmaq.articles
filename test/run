@@ -21,7 +21,7 @@ DEST=/v/danmaq.articles
 VOL2=${PJHOME}:${DEST}:ro
 
 # ---- SET VOL3 ----
-VOL3=${PJHOME}_site:/srv/jekyll/_site
+VOL3=${PJHOME}/_site:/srv/jekyll/_site
 
 CONTAINER=jekyll
 IMAGE=danmaq/jekyll-git-redcarpet:custom
