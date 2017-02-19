@@ -22,6 +22,7 @@ if [ ${SKIP} -eq 0 ]; then
     git clone git@github.com:danmaq/danmaq.jekyll.git
 fi
 mkdir -p ${SRC_THEME}/theme/_includes
+mkdir -p ${SRC_THEME}/theme/_plugins
 mkdir -p ${SRC_THEME}/theme/_sass
 mkdir -p ${SRC_THEME}/theme/assets
 
