@@ -16,7 +16,7 @@ set PWD=%~dp0
 set PJHOME=%PWD:~0,-6%
 
 rem ==== SET VOL1 ====
-set VTHEMES=%1
+set VTHEMES=%~f1
 if "%VTHEMES%"=="" set VTHEMES=%PJHOME%\tmp
 set VOL1=%VTHEMES%:/v/danmaq.jekyll
 
@@ -28,18 +28,22 @@ rem ==== SET VOL3 ====
 set VOL3=%PJHOME%\_site:/srv/jekyll/_site
 
 set CONTAINER=jekyll
-set IMAGE=danmaq/jekyll-git-redcarpet:github-pages
+set IMAGE=danmaq/jekyll-git-redcarpet:custom
 set GIT_NAME="jekyll bot by Shuhei Nomura"
 set GIT_EMAIL="info@danmaq.com"
 set LOOP="while true; do sleep 1; done"
+
+docker build -t %IMAGE% test
 docker run -d -p 4000:4000 ^
     -v %VOL1% -v %VOL2% -v %VOL3% ^
     -e GIT_NAME=%GIT_NAME% -e GIT_EMAIL=%GIT_EMAIL% ^
     --name %CONTAINER% %IMAGE% sh -c %LOOP%
-echo "Please open via browser: http://localhost:4000"
 docker cp %USERPROFILE%\.ssh\id_rsa %CONTAINER%:/root/.ssh/id_rsa
+
+echo "Please open via browser: http://localhost:4000"
+rem docker exec -it %CONTAINER% ash
 docker exec -it %CONTAINER% %DEST%/test/incontainer
-docker exec -it %CONTAINER% ash
+rem docker exec -it %CONTAINER% ash
 docker rm -f %CONTAINER%
 endlocal
 exit /b 0

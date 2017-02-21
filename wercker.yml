@@ -2,7 +2,16 @@ box: danmaq/jekyll-git-redcarpet:github-pages
 build:
   steps:
     - script:
-        name: まず GitHub に SSH で繋ぐために必要な秘密鍵の設定やるよー
+        name: 作業始める前に、コンテナのシステム更新しておこっか
+        code: |
+          echo 'install: --no-document' >> ~/.gemrc
+          echo 'update: --no-document' >> ~/.gemrc
+          apk update
+          apk upgrade
+          gem update --system
+          gem update
+    - script:
+        name: 大丈夫だね。まず GitHub に SSH で繋ぐために必要な秘密鍵の設定やるよー
         code: |
           cd ~
           echo ${PRIVATE_KEY} | sed 's/\\n/\n/g' > .ssh/id_rsa
@@ -14,19 +23,20 @@ build:
     - script:
         name: 準備おっけー？ GitHub から記事リポジトリをクローンするよ！
         code: |
-          cd /tmp/
-          git clone git@github.com:danmaq/danmaq.articles.git
+          cd /tmp
+          git clone ${REPO_ARTICLES}
     - script:
         name: 次に GitHub からテーマリポジトリもクローンするよ！
         code: |
-          cd /tmp/
-          git clone git@github.com:danmaq/danmaq.jekyll.git
+          cd /tmp
+          git clone ${REPO_THEME}
     - script:
         name: いい感じっ！クローンしたデータを作業台に載せるよ！
         code: |
-          cp -r /tmp/danmaq.articles/root/* /srv/jekyll
-          cp -r /tmp/danmaq.articles/_posts /srv/jekyll
-          cd /srv/jekyll
+          cp -r /tmp/danmaq.articles/root/* ${WORK}/
+          cp -r /tmp/danmaq.articles/_posts ${WORK}/
+          cp -r /tmp/danmaq.jekyll/theme/* ${WORK}/
+          cd ${WORK}
     - script:
         name: 成果物を作るよ！Jekyll さん、ビルドお願いっ！
         code: jekyll b
@@ -37,7 +47,7 @@ build:
           git clone git@github.com:danmaq/danmaq.github.io.git
     - script:
         name: 受け皿ができた感じ。じゃあ成果物を入れちゃおうね！
-        code: cp -r /srv/jekyll/_site/* /tmp/danmaq.github.io/
+        code: cp -r ${WORK}/_site/* /tmp/danmaq.github.io/
     - script:
         name: 最後の仕上げだよ！新しい成果物を確定しちゃおう！
         code: |
@@ -45,3 +55,8 @@ build:
           git add -A
           git commit -m 'Converted from danmaq/danmaq.articles:master'
           git push
+    - script:
+        name: 終わり！お掃除するよ！
+        code: |
+          rm -rf /tmp/* /tmp/.[^.] /tmp/.??*
+          rm -rf ${WORK}/* ${WORK}/.[^.] ${WORK}/.??*
